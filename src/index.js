@@ -22,7 +22,7 @@ import md5 from 'md5'
             let currentAppName,currentRouterName
             let hash = location.hash.split('/')
             if(hash.length){
-                currentAppName = 'user-center' || hash[0]
+                currentAppName = hash[0] || ''
                 currentRouterName = hash[1] || ''
             }
             let store = JSON.parse(Cookies.get('WEBG_STORAGE'))
