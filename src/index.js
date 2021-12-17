@@ -25,23 +25,23 @@ import md5 from 'md5'
                 currentAppName = hash[0] || ''
                 currentRouterName = hash.length > 2 ? hash[1] : ''
             }
-            let store = JSON.parse(Cookies.get('EntAdminG_STORE'))
-            let data
+            let store ,data
             try {
+                store = JSON.parse(Cookies.get('EntAdminG_STORE'))
                 data = JSON.parse(this.response)
             } catch (error) {}
             if(data && data.code == 200 && data.success){
                 let time = String(dayjs().valueOf())
-                let logText = `【${store.currentOrgName}】` + '进行了' + `【${resultName}】` +  '操作'
+                let logText = `【${store.orgName}】` + '进行了' + `【${resultName}】` +  '操作'
                 let resultLog = {
                     orgId:String(store.orgId),
-                    uid:store.uid,
+                    uid:store.myself.uid,
                     platform:8,
                     eventId:'0',
                     triggerTime:time,
                     oplog:'#' + `${currentAppName}` + '#' +`${currentRouterName}`+ '#0#0#' + `${logText}`,
                     timestamp:time,
-                    sign:md5(md5(String(store.uid) + store.uid + 8 + '0' + time) + time),
+                    sign:md5(md5(String(store.myself.uid) + store.myself.uid + 8 + '0' + time) + time),
                 }
                 axios.post('/baas-analysis/web/dotLogExt',resultLog)
                   .then((res) =>{
