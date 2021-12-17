@@ -3,9 +3,7 @@ import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
 
-if(!window.apis){
-    window.apis = apis
-}
+
 
 (function(open) {
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
