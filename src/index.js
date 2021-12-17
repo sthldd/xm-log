@@ -27,7 +27,7 @@ import md5 from 'md5'
             }
             let store ,data
             try {
-                store = JSON.parse(Cookies.get('EntAdminG_STORE'))
+                store = JSON.parse(Cookies.get('admin_login'))
                 data = JSON.parse(this.response)
             } catch (error) {}
             if(data && data.code == 200 && data.success){
@@ -35,13 +35,13 @@ import md5 from 'md5'
                 let logText = `【${store.orgName}】` + '进行了' + `【${resultName}】` +  '操作'
                 let resultLog = {
                     orgId:String(store.orgId),
-                    uid:store.myself.uid,
+                    uid:store.uid,
                     platform:8,
                     eventId:'0',
                     triggerTime:time,
                     oplog:'#' + `${currentAppName}` + '#' +`${currentRouterName}`+ '#0#0#' + `${logText}`,
                     timestamp:time,
-                    sign:md5(md5(String(store.myself.uid) + store.myself.uid + 8 + '0' + time) + time),
+                    sign:md5(md5(String(store.uid) + store.uid + 8 + '0' + time) + time),
                 }
                 axios.post('/baas-analysis/web/dotLogExt',resultLog)
                   .then((res) =>{
