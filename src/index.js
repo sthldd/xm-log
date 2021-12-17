@@ -23,9 +23,9 @@ import md5 from 'md5'
             let hash = location.hash.split('/')
             if(hash.length){
                 currentAppName = hash[0] || ''
-                currentRouterName = hash[1] || ''
+                currentRouterName = hash.length > 2 ? hash[1] : ''
             }
-            let store = JSON.parse(Cookies.get('WEBG_STORAGE'))
+            let store = JSON.parse(Cookies.get('EntAdminG_STORE'))
             let data
             try {
                 data = JSON.parse(this.response)
