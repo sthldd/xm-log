@@ -4,10 +4,8 @@ import Cookies from 'js-cookie'
 import md5 from 'md5'
 
 
-console.log('开启');
 (function(open) {
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
-    console.log('open监听');
     let paramsIndex = url.lastIndexOf('?')
     let apiName = paramsIndex > 0 ? url.substr(0,paramsIndex) : url
     let resultApi,resultName 
@@ -18,14 +16,13 @@ console.log('开启');
         }
     }
     this.addEventListener("readystatechange", function() {
-        console.log('statechange监听',this.readyState);
         if(this.readyState == 4){
             if(!resultApi)return 
             let currentAppName,currentRouterName
             let hash = location.hash.split('/')
             if(hash.length){
-                currentAppName = hash[0] || ''
-                currentRouterName = hash.length > 2 ? hash[1] : ''
+                currentAppName = hash[1] || ''
+                currentRouterName = hash.length > 2 ? hash[2] : ''
             }
             let store ,data
             try {
