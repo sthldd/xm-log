@@ -4,9 +4,10 @@ import Cookies from 'js-cookie'
 import md5 from 'md5'
 
 
-
+console.log('开启');
 (function(open) {
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+    console.log('open监听');
     let paramsIndex = url.lastIndexOf('?')
     let apiName = paramsIndex > 0 ? url.substr(0,paramsIndex) : url
     let resultApi,resultName 
@@ -17,6 +18,7 @@ import md5 from 'md5'
         }
     }
     this.addEventListener("readystatechange", function() {
+        console.log('statechange监听',this.readyState);
         if(this.readyState == 4){
             if(!resultApi)return 
             let currentAppName,currentRouterName
@@ -30,6 +32,7 @@ import md5 from 'md5'
                 store = JSON.parse(Cookies.get('admin_login'))
                 data = JSON.parse(this.response)
             } catch (error) {}
+            console.log(data,'datadatadata');
             if(data && data.code == 200 && data.success){
                 let time = String(dayjs().valueOf())
                 let logText = `【${store.orgName}】` + '进行了' + `【${resultName}】` +  '操作'
@@ -37,9 +40,8 @@ import md5 from 'md5'
                     orgId:String(store.orgId),
                     uid:store.uid,
                     platform:8,
-                    eventId:'0',
+                    eventId:'OPLOG#'+ `${currentAppName}` + '#' +`${currentRouterName}`+ '#0#0#' + `${logText}`,
                     triggerTime:time,
-                    oplog:'#' + `${currentAppName}` + '#' +`${currentRouterName}`+ '#0#0#' + `${logText}`,
                     timestamp:time,
                     sign:md5(md5(String(store.uid) + store.uid + 8 + '0' + time) + time),
                 }
