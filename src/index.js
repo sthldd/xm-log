@@ -2,6 +2,7 @@ import axios from "axios";
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
+import isArrayBuffer from 'is-array-buffer';
 
 
 (function(open) {
@@ -24,13 +25,13 @@ import md5 from 'md5'
                 currentAppName = hash[1] || ''
                 currentRouterName = hash.length > 2 ? hash[2] : ''
             }
+            console.log(this.response,'this.response');
             let store ,data
             try {
                 store = JSON.parse(Cookies.get('admin_login'))
                 data = JSON.parse(this.response)
             } catch (error) {}
-            console.log(data,'datadatadata');
-            if(data && data.code == 200 && data.success){
+            if(isArrayBuffer(this.response) || data && data.code == 200 && data.success){
                 let time = String(dayjs().valueOf())
                 let logText = `【${store.orgName}】` + '进行了' + `【${resultName}】` +  '操作'
                 let resultLog = {
