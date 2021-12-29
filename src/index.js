@@ -2,14 +2,12 @@ import axios from "axios";
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
-
-<script src="http://baas.uban360.net:21006/admin/ie11-polyfill.js"></script>
+import './ie11-polyfill'
 
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
 }
-
 (function(open) {
 
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
