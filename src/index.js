@@ -3,14 +3,7 @@ import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
 
-function addScript(url){
-	var script = document.createElement('script');
-	script.setAttribute('type','text/javascript');
-	script.setAttribute('src',url);	
-	document.getElementsByTagName('head')[0].appendChild(script);
-}
-addScript("https://cdn.staticfile.org/babel-core/5.8.38/browser.min.js")
-addScript("https://cdn.staticfile.org/babel-core/5.8.38/browser-polyfill.min.js")
+<script src="http://baas.uban360.net:21006/admin/ie11-polyfill.js"></script>
 
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
@@ -18,9 +11,6 @@ function isArrayBuffer(value) {
 }
 
 (function(open) {
-
-
-
 
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
     let paramsIndex = url.lastIndexOf('?')
