@@ -2,10 +2,18 @@ import axios from "axios";
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
-import isArrayBuffer from 'is-array-buffer';
 
+
+const hasArrayBuffer = typeof ArrayBuffer === 'function';
+function isArrayBuffer(value) {
+    return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
+}
 
 (function(open) {
+
+
+
+
     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
     let paramsIndex = url.lastIndexOf('?')
     let apiName = paramsIndex > 0 ? url.substr(0,paramsIndex) : url
