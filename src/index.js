@@ -3,6 +3,14 @@ import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
 
+function addScript(url){
+	var script = document.createElement('script');
+	script.setAttribute('type','text/javascript');
+	script.setAttribute('src',url);	
+	document.getElementsByTagName('head')[0].appendChild(script);
+}
+addScript("https://cdn.staticfile.org/babel-core/5.8.38/browser.min.js")
+addScript("https://cdn.staticfile.org/babel-core/5.8.38/browser-polyfill.min.js")
 
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
