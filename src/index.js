@@ -2,9 +2,6 @@ import axios from "axios";
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
-import './ie11-polyfill'
-import './browser-polyfill.min'
-import './ie11-polyfill'
 
 
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
