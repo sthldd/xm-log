@@ -19,7 +19,7 @@ var _md2 = _interopRequireDefault(_md);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (!window.apis) {
-    window.apis = [];
+    window.apis = {};
 }
 var hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {

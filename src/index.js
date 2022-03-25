@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import md5 from 'md5'
 
 if (!window.apis) {
-    window.apis = []
+    window.apis = {}
 }
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
