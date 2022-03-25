@@ -18,6 +18,9 @@ var _md2 = _interopRequireDefault(_md);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+if (!window.apis) {
+    window.apis = [];
+}
 var hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
@@ -28,10 +31,10 @@ function isArrayBuffer(value) {
         var apiName = paramsIndex > 0 ? url.substr(0, paramsIndex) : url;
         var resultApi = void 0,
             resultName = void 0;
-        for (var k in apis) {
+        for (var k in window.apis) {
             if (k === apiName) {
                 resultApi = k;
-                resultName = apis[k];
+                resultName = window.apis[k];
             }
         }
         this.addEventListener("readystatechange", function () {
@@ -92,10 +95,10 @@ function isArrayBuffer(value) {
             var apiName = this.responseURL.substr(paramsIndex);
             var resultApi = void 0,
                 resultName = void 0;
-            for (var k in apis) {
+            for (var k in window.apis) {
                 if (k === apiName) {
                     resultApi = k;
-                    resultName = apis[k];
+                    resultName = window.apis[k];
                 }
             }
             if (this.readyState === 4 && data) {

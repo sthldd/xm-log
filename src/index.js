@@ -3,7 +3,9 @@ import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
 
-
+if (!window.apis) {
+    window.apis = []
+}
 const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
@@ -13,10 +15,10 @@ function isArrayBuffer(value) {
         let paramsIndex = url.lastIndexOf('?')
         let apiName = paramsIndex > 0 ? url.substr(0,paramsIndex) : url
         let resultApi,resultName 
-        for( let k in apis ){
+        for( let k in window.apis){
             if(k === apiName){
                 resultApi = k
-                resultName = apis[k]
+                resultName = window.apis[k]
             }
         }
         this.addEventListener("readystatechange", function() {
@@ -75,10 +77,10 @@ function isArrayBuffer(value) {
                 let paramsIndex = location.origin.length
                 let apiName = this.responseURL.substr(paramsIndex)
                 let resultApi,resultName 
-                for( let k in apis ){
+                for( let k in window.apis ){
                     if(k === apiName){
                         resultApi = k
-                        resultName = apis[k]
+                        resultName = window.apis[k]
                     }
                 }
                 if(this.readyState === 4 && data) {
