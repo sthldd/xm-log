@@ -25,7 +25,7 @@ function isArrayBuffer(value) {
         this.addEventListener("readystatechange", function() {
             if(this.readyState == 4 && method === 'GET'){
                dealLog(resultApi,resultName,'GET',this.response,null)
-            }else if(method === 'POST'){
+            }else if(this.readyState == 4 && method === 'POST'){
                 let cur = qs.parse(url.split('?')[1])
                 if(JSON.stringify(cur) !== '{}'){
                    dealLog(resultApi,resultName,'POST',this.response,cur)
