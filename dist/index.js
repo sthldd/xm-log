@@ -29,7 +29,6 @@ var hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
 }
-var curUrlParams = {};
 (function (open, send) {
     XMLHttpRequest.prototype.open = function (method, url) {
         var paramsIndex = url.lastIndexOf('?');
@@ -45,6 +44,11 @@ var curUrlParams = {};
         this.addEventListener("readystatechange", function () {
             if (this.readyState == 4 && method === 'GET') {
                 dealLog(resultApi, resultName, 'GET', this.response, null);
+            } else if (method === 'POST') {
+                var cur = QS.parse(url.split('?')[1]);
+                if (JSON.stringify(cur) !== '{}') {
+                    dealLog(resultApi, resultName, 'POST', this.response, cur);
+                }
             }
         }, false);
         open.call(this, method, url);
@@ -65,9 +69,7 @@ var curUrlParams = {};
             store = JSON.parse(_jsCookie2.default.get('admin_login'));
             data = JSON.parse(response);
             if (params) {
-                postParams = JSON.parse(params);
-                postParams = Object.assign(postParams, curUrlParams[resultName]);
-                delete curUrlParams[resultName];
+                postParams = typeof params == 'string' ? JSON.parse(params) : params;
             }
         } catch (error) {}
         if (isArrayBuffer(response) || data && data.code == 200 && data.success) {
@@ -103,13 +105,12 @@ var curUrlParams = {};
             var resultApi = void 0,
                 resultName = void 0;
             for (var k in window.apis) {
-                if (this.responseURL.indexOf(k) > -1) {
+                if (k === apiName) {
                     resultApi = k;
                     resultName = window.apis[k];
                 }
             }
             if (this.readyState === 4 && data) {
-                curUrlParams[resultName] = _qs2.default.parse(url.split('?')[1]);
                 dealLog(resultApi, resultName, 'POST', this.response, data);
             }
         }, false);
