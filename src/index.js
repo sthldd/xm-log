@@ -2,6 +2,7 @@ import axios from "axios";
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
+import qs from 'qs'
 
 if (!window.apis) {
     window.apis = {}
@@ -10,6 +11,7 @@ const hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
 }
+var curUrlParams = {};
 (function(open,send) {
     XMLHttpRequest.prototype.open = function(method, url) {
         let paramsIndex = url.lastIndexOf('?')
@@ -24,6 +26,14 @@ function isArrayBuffer(value) {
         this.addEventListener("readystatechange", function() {
             if(this.readyState == 4 && method === 'GET'){
                dealLog(resultApi,resultName,'GET',this.response,null)
+            }else if(method === 'POST'){
+                let findResultNameForGetUrlParams
+                for( let k in apis){
+                    if(k.includes(apiName)){
+                        findResultNameForGetUrlParams = apis[k]
+                    }
+                }
+                curUrlParams[findResultNameForGetUrlParams] = qs.parse(url.split('?')[1])
             }
         }, false);
         open.call(this, method, url);
@@ -42,6 +52,8 @@ function isArrayBuffer(value) {
             data = JSON.parse(response)
             if(params){
                 postParams = JSON.parse(params)
+                postParams =  Object.assign(postParams,curUrlParams[resultName])
+                delete curUrlParams[resultName]
             }
         } catch (error) {}
         if(isArrayBuffer(response) || data && data.code == 200 && data.success){

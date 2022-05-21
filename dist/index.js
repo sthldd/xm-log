@@ -16,6 +16,10 @@ var _md = require('md5');
 
 var _md2 = _interopRequireDefault(_md);
 
+var _qs = require('qs');
+
+var _qs2 = _interopRequireDefault(_qs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (!window.apis) {
@@ -25,6 +29,7 @@ var hasArrayBuffer = typeof ArrayBuffer === 'function';
 function isArrayBuffer(value) {
     return hasArrayBuffer && (value instanceof ArrayBuffer || Object.prototype.toString.call(value) === '[object ArrayBuffer]');
 }
+var curUrlParams = {};
 (function (open, send) {
     XMLHttpRequest.prototype.open = function (method, url) {
         var paramsIndex = url.lastIndexOf('?');
@@ -40,6 +45,14 @@ function isArrayBuffer(value) {
         this.addEventListener("readystatechange", function () {
             if (this.readyState == 4 && method === 'GET') {
                 dealLog(resultApi, resultName, 'GET', this.response, null);
+            } else if (method === 'POST') {
+                var findResultNameForGetUrlParams = void 0;
+                for (var _k in apis) {
+                    if (_k.includes(apiName)) {
+                        findResultNameForGetUrlParams = apis[_k];
+                    }
+                }
+                curUrlParams[findResultNameForGetUrlParams] = _qs2.default.parse(url.split('?')[1]);
             }
         }, false);
         open.call(this, method, url);
@@ -61,6 +74,8 @@ function isArrayBuffer(value) {
             data = JSON.parse(response);
             if (params) {
                 postParams = JSON.parse(params);
+                postParams = Object.assign(postParams, curUrlParams[resultName]);
+                delete curUrlParams[resultName];
             }
         } catch (error) {}
         if (isArrayBuffer(response) || data && data.code == 200 && data.success) {
