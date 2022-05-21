@@ -26,14 +26,6 @@ var curUrlParams = {};
         this.addEventListener("readystatechange", function() {
             if(this.readyState == 4 && method === 'GET'){
                dealLog(resultApi,resultName,'GET',this.response,null)
-            }else if(method === 'POST'){
-                let findResultNameForGetUrlParams
-                for( let k in apis){
-                    if(k.includes(apiName)){
-                        findResultNameForGetUrlParams = apis[k]
-                    }
-                }
-                curUrlParams[findResultNameForGetUrlParams] = qs.parse(url.split('?')[1])
             }
         }, false);
         open.call(this, method, url);
@@ -90,12 +82,13 @@ var curUrlParams = {};
                 let apiName = this.responseURL.substr(paramsIndex)
                 let resultApi,resultName 
                 for( let k in window.apis ){
-                    if(k === apiName){
+                    if(this.responseURL.indexOf(k) > -1){
                         resultApi = k
                         resultName = window.apis[k]
                     }
                 }
                 if(this.readyState === 4 && data) {
+                    curUrlParams[resultName] = qs.parse(url.split('?')[1])
                     dealLog(resultApi,resultName,'POST',this.response,data)
                 }
         }, false);
