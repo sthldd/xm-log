@@ -26,7 +26,7 @@ function isArrayBuffer(value) {
             if(this.readyState == 4 && method === 'GET'){
                dealLog(resultApi,resultName,'GET',this.response,null)
             }else if(method === 'POST'){
-                let cur = QS.parse(url.split('?')[1])
+                let cur = qs.parse(url.split('?')[1])
                 if(JSON.stringify(cur) !== '{}'){
                    dealLog(resultApi,resultName,'POST',this.response,cur)
                 }
